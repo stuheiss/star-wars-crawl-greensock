@@ -9,6 +9,8 @@ import './App.css'
 //import Stars from './stars.jsx'
 import Star from './Star.jsx'
 
+const numberOfStars = 500
+
 class App extends Component {
     constructor(props) {
         super(props)
@@ -20,6 +22,7 @@ class App extends Component {
         this.audio = React.createRef()
 
         this.state = {
+            stars: this.createStars(numberOfStars),
             muted: true
         }
     }
@@ -35,6 +38,7 @@ class App extends Component {
     }
 
     componentDidMount() {
+        window.addEventListener('resize', this.updateDimensions)
         const tl = new TimelineLite()
 
         tl.to(this.stars.current, 0.5, { opacity: 1, delay: 1 })
@@ -62,9 +66,7 @@ class App extends Component {
                 top={props.top}
                 left={props.left}
                 opacity={props.opacity}
-            >
-                .
-            </Star>
+            />
         )
     }
 
@@ -90,8 +92,14 @@ class App extends Component {
             .map(this.createStar)
     }
 
+    // why can't this be updateDimensions() {}
+    updateDimensions = () => {
+        const stars = this.createStars(numberOfStars)
+        this.setState({ stars: stars })
+    }
+
     render() {
-        const stars = this.createStars(200)
+        const stars = this.state.stars
 
         return (
             <div id="x" className="container">

@@ -5,20 +5,15 @@ import React from 'react'
 let Star = function statelessFunctionComponentClass(props) {
     const style = {
         position: 'absolute',
-        //border: '5px solid #73AD21',
         top: props.top,
         left: props.left,
-        width: '2px',
-        height: '2px',
+        width: '1px',
+        height: '1px',
         opacity: props.opacity,
-        color: 'white'
+        backgroundColor: 'white'
     }
 
-    return (
-        <div className="star" style={style}>
-            {props.children}
-        </div>
-    )
+    return <div className="star" style={style} />
 }
 
 export default Star
