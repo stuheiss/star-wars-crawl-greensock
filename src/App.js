@@ -6,8 +6,9 @@ import volumeOff from './volume_off.svg'
 import volumeOn from './volume_on.svg'
 import './App.css'
 
-//import Stars from './stars.jsx'
+/*eslint-disable no-unused-vars*/
 import Star from './Star.jsx'
+/*eslint-enable no-unused-vars*/
 
 const numberOfStars = 500
 
