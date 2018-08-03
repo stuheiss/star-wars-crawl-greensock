@@ -11,6 +11,10 @@ import Star from './Star.jsx'
 /*eslint-enable no-unused-vars*/
 
 const numberOfStars = 500
+// soundtracks at http://users.du.se/~dbe/mp3/Star%20Wars%20Soundtrack/
+const soundtrack =
+    'http://users.du.se/~dbe/mp3/Star%20Wars%20Soundtrack/Star%20Wars%20I%20-%20Star%20Wars%20Main%20Title%20And%20The%20Arrival%20At%20Naboo.mp3'
+//const soundtrack = 'https://ia801307.us.archive.org/28/items/JohnWilliamsStarWarsMainThemeFULL/John%20Williams%20-%20Star%20Wars%20Main%20Theme%20(FULL).mp3'
 
 class App extends Component {
     constructor(props) {
@@ -39,7 +43,9 @@ class App extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.updateDimensions)
+        // note: you need to bind this to updateDimensions if it is not es6 style
+        //window.addEventListener('resize', this.updateDimensions) // ok if updateDimensions is es6 style
+        window.addEventListener('resize', this.updateDimensions.bind(this)) // required if updateDimensions is not es6 style
         const tl = new TimelineLite()
 
         tl.to(this.stars.current, 0.5, { opacity: 1, delay: 1 })
@@ -93,11 +99,18 @@ class App extends Component {
             .map(this.createStar)
     }
 
-    // why can't this be updateDimensions() {}
-    updateDimensions = () => {
+    // requires binding this to updateDimensions in caller
+    updateDimensions() {
+        // default context of this is Window
         const stars = this.createStars(numberOfStars)
         this.setState({ stars: stars })
     }
+    // works fine
+    // updateDimensions = () => {
+    //     // default context of this is App
+    //     const stars = this.createStars(numberOfStars)
+    //     this.setState({ stars: stars })
+    // }
 
     render() {
         const stars = this.state.stars
@@ -140,10 +153,7 @@ class App extends Component {
                     </div>
                 </section>
                 <audio ref={this.audio} muted>
-                    <source
-                        type="audio/mpeg"
-                        src="https://ia801307.us.archive.org/28/items/JohnWilliamsStarWarsMainThemeFULL/John%20Williams%20-%20Star%20Wars%20Main%20Theme%20(FULL).mp3"
-                    />
+                    <source type="audio/mpeg" src={soundtrack} />
                 </audio>
                 <button
                     className="volume"
